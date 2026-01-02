@@ -4,12 +4,12 @@
     "payload": "eyJkb21haW4iOiJiYXNlLW1pbmlhcHAtamFkZS52ZXJjZWwuYXBwIn0",
     "signature": "OO+M1ct15wNEXFuRBHJVWKp9S6qpUUxwHOfp1W9z68hpJyY6lyUSx9j2oojGFZhiR8czyIHKDfr4SaxVe4K4/Bs="
   },
-  "miniapp": {
-    "version": "1",
+  "frame": {
+    "version": "1.0.1",
     "name": "Base Mini App",
-  "iconUrl": "https://base-miniapp-jade.vercel.app/icon.png",
-  "imageUrl": "https://base-miniapp-jade.vercel.app/icon.png",
-  "homeUrl": "https://base-miniapp-jade.vercel.app",
+    "iconUrl": "https://base-miniapp-jade.vercel.app/icon.png",
+    "imageUrl": "https://base-miniapp-jade.vercel.app/icon.png",
+    "homeUrl": "https://base-miniapp-jade.vercel.app",
     "splashImageUrl": "https://placehold.co/512x512/png",
     "splashBackgroundColor": "#000000",
     "subtitle": "Easy to manage",
