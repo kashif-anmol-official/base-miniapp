@@ -1,17 +1,10 @@
 {
   "headers": [
     {
-      "source": "/.well-known/base-miniapp.json",
-      "headers": [
-        { "key": "Content-Type", "value": "application/json" },
-        { "key": "Cache-Control", "value": "no-store" }
-      ]
-    },
-    {
       "source": "/.well-known/farcaster.json",
       "headers": [
-        { "key": "Content-Type", "value": "application/json" },
-        { "key": "Cache-Control", "value": "no-store" }
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Content-Type", "value": "application/json" }
       ]
     }
   ]
