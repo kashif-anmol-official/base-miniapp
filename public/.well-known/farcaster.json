@@ -7,5 +7,10 @@
   "splashImageUrl": "https://placehold.co/1024x1024/png",
   "splashBackgroundColor": "#000000",
   "primaryCategory": "developer-tools",
-  "tags": ["base", "mini-app", "web3", "demo"]
+  "tags": ["base", "mini-app", "web3", "demo"],
+"accountAssociation": {
+    "header": "eyJmaWQiOjIwNjU3ODMsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHg3ODdFMDU2MTU2Q0ZhMjBGMkEyMDk0NjVmNDlGMzRDMDk0M2U3QzlBIn0",
+    "payload": "eyJkb21haW4iOiJiYXNlLW1pbmlhcHAtamFkZS52ZXJjZWwuYXBwIn0",
+    "signature": "OO+M1ct15wNEXFuRBHJVWKp9S6qpUUxwHOfp1W9z68hpJyY6lyUSx9j2oojGFZhiR8czyIHKDfr4SaxVe4K4/Bs="
+  }
 }
