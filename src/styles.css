@@ -1,0 +1,28 @@
+body {
+  background: #0b0b0b;
+  color: white;
+  font-family: system-ui, sans-serif;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+  padding: 16px;
+}
+
+.card {
+  background: #161616;
+  padding: 16px;
+  margin-top: 16px;
+  border-radius: 12px;
+}
+
+button {
+  background: #0052ff;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+}

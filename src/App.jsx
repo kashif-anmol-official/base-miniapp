@@ -1,18 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import sdk from "@farcaster/frame-sdk";
+import { useAccount } from "wagmi";
+import WalletConnect from "./components/WalletConnect";
 
 /* Utils */
 function todayKey() {
   return new Date().toISOString().slice(0, 10);
 }
 
-function storageKey(userId) {
-  return `engagement-${userId}`;
+function storageKey(id) {
+  return `engagement-${id}`;
 }
 
-/* Default daily tasks */
 function defaultTasks() {
   return {
     dailyCheckIn: false,
@@ -21,196 +21,150 @@ function defaultTasks() {
 }
 
 export default function App() {
-  const [userId, setUserId] = useState(null);
-  const [wallet, setWallet] = useState(null);
+  const { address, isConnected } = useAccount();
+
+  const userId = isConnected ? address.toLowerCase() : "guest";
+
   const [streak, setStreak] = useState(0);
   const [tasks, setTasks] = useState(defaultTasks());
   const [checkedInToday, setCheckedInToday] = useState(false);
   const [error, setError] = useState(null);
 
-  /* 1. Initialize Farcaster SDK (Fixes "Not Ready" Error) */
+  /* Load daily state (only after wallet connect) */
   useEffect(() => {
-    const load = async () => {
-      const context = await sdk.context;
-      sdk.actions.ready(); // Tells the validator the app is ready
-    };
+    if (!isConnected) return;
 
-    if (sdk && sdk.actions) {
-      load();
-    }
-  }, []);
-
-  /* 2. Read identity from Base/Farcaster context */
-  useEffect(() => {
-    // Note: window.base might not exist in the emulator, so we check safely
-    if (typeof window !== "undefined" && window.base) {
-      try {
-        const address = window.base?.user?.walletAddress;
-        if (address) {
-          setWallet(address);
-          setUserId(address.toLowerCase());
-        }
-      } catch {
-        setError("Failed to read Base SDK");
-      }
-    }
-  }, []);
-
-  /* 3. Load daily state */
-  useEffect(() => {
-    if (!userId) return;
-
-    const raw = localStorage.getItem(storageKey(userId));
-    const data = raw ? JSON.parse(raw) : {};
-
+    const key = storageKey(userId);
+    const raw = localStorage.getItem(key);
+    const saved = raw ? JSON.parse(raw) : null;
     const today = todayKey();
 
-    if (data.date !== today) {
-      // New day reset
+    if (!saved || saved.date !== today) {
+      const newState = {
+        date: today,
+        lastCheckIn: saved?.lastCheckIn || null,
+        streak: saved?.streak || 0,
+        tasks: defaultTasks(),
+      };
+      localStorage.setItem(key, JSON.stringify(newState));
       setTasks(defaultTasks());
       setCheckedInToday(false);
-      setStreak(data.streak || 0);
-
-      localStorage.setItem(
-        storageKey(userId),
-        JSON.stringify({
-          date: today,
-          streak: data.streak || 0,
-          tasks: defaultTasks(),
-        })
-      );
+      setStreak(newState.streak);
     } else {
-      setTasks(data.tasks || defaultTasks());
-      setCheckedInToday(data.tasks?.dailyCheckIn || false);
-      setStreak(data.streak || 0);
+      setTasks(saved.tasks);
+      setCheckedInToday(saved.tasks.dailyCheckIn);
+      setStreak(saved.streak);
     }
-  }, [userId]);
+  }, [isConnected, userId]);
 
-  /* Save state helper */
-  function saveState(updated) {
+  function save(updated) {
     localStorage.setItem(storageKey(userId), JSON.stringify(updated));
   }
 
-  /* Daily check-in */
   function handleCheckIn() {
-    if (checkedInToday) return;
+    if (checkedInToday || !isConnected) return;
 
-    const today = todayKey();
     const raw = localStorage.getItem(storageKey(userId));
     const data = raw ? JSON.parse(raw) : {};
+    const today = todayKey();
 
     let newStreak = 1;
-
     if (data.lastCheckIn) {
       const last = new Date(data.lastCheckIn);
-      const diff =
-        (new Date(today) - last) / (1000 * 60 * 60 * 24);
-
-      if (diff === 1) {
+      const now = new Date();
+      const diffDays = Math.floor(
+        (now - last) / (1000 * 60 * 60 * 24)
+      );
+      if (diffDays === 1) {
         newStreak = (data.streak || 0) + 1;
       }
     }
-
-    const updatedTasks = {
-      ...tasks,
-      dailyCheckIn: true,
-    };
 
     const updated = {
       date: today,
       lastCheckIn: today,
       streak: newStreak,
-      tasks: updatedTasks,
+      tasks: {
+        ...tasks,
+        dailyCheckIn: true,
+      },
     };
 
-    saveState(updated);
-
+    save(updated);
     setStreak(newStreak);
-    setTasks(updatedTasks);
+    setTasks(updated.tasks);
     setCheckedInToday(true);
   }
 
-  /* Task actions */
-  function completeTask(taskId) {
-    if (tasks[taskId]) return;
+  function completeTask(id) {
+    if (!isConnected || tasks[id]) return;
 
     const raw = localStorage.getItem(storageKey(userId));
     const data = raw ? JSON.parse(raw) : {};
 
     const updatedTasks = {
       ...tasks,
-      [taskId]: true,
+      [id]: true,
     };
 
-    const updated = {
-      ...data,
-      tasks: updatedTasks,
-    };
-
-    saveState(updated);
+    save({ ...data, tasks: updatedTasks });
     setTasks(updatedTasks);
   }
 
   return (
-    <div className="container" style={{ padding: '20px' }}>
+    <div className="container" style={{ padding: 20 }}>
       <h1>Engagement Mini App</h1>
 
-      {error && <p className="error" style={{ color: 'red' }}>{error}</p>}
-
-      {/* Render content even if no wallet is found (for debugging) */}
-      <div className="card">
-        <p className="streak">
-          🔥 Streak: <strong>{streak}</strong>
-        </p>
-
-        <button
-          onClick={handleCheckIn}
-          disabled={checkedInToday}
-          style={{ padding: '10px 20px', margin: '10px 0' }}
-        >
-          {checkedInToday ? "Checked in today" : "Daily Check-In"}
-        </button>
-      </div>
-
-      <div className="card">
-        <h2>Daily Tasks</h2>
-
-        <ul className="tasks" style={{ listStyle: 'none', padding: 0 }}>
-          <li style={{ margin: '10px 0' }}>
-            <input
-              type="checkbox"
-              checked={tasks.dailyCheckIn}
-              readOnly
-              style={{ marginRight: '10px' }}
-            />
-            Daily check-in
-          </li>
-
-          <li style={{ margin: '10px 0' }}>
-            <input
-              type="checkbox"
-              checked={tasks.visitBase}
-              readOnly
-              style={{ marginRight: '10px' }}
-            />
-            <button
-              className="link"
-              disabled={tasks.visitBase}
-              onClick={() => {
-                window.open("https://base.org", "_blank");
-                completeTask("visitBase");
-              }}
-            >
-              Visit Base.org
-            </button>
-          </li>
-        </ul>
-      </div>
-      
-      {wallet && (
-          <p className="wallet" style={{ marginTop: '20px', fontSize: '0.8em', color: '#666' }}>
-            Wallet: {wallet.slice(0, 6)}...{wallet.slice(-4)}
+      {!isConnected && (
+        <div className="card">
+          <WalletConnect />
+          <p style={{ fontSize: 12, opacity: 0.7 }}>
+            Connect your wallet to start your streak
           </p>
+        </div>
+      )}
+
+      {isConnected && (
+        <>
+          <div className="card">
+            <p>🔥 Streak: <strong>{streak}</strong></p>
+
+            <button
+              onClick={handleCheckIn}
+              disabled={checkedInToday}
+              style={{ padding: "10px 20px", marginTop: 10 }}
+            >
+              {checkedInToday ? "Checked in today" : "Daily Check-In"}
+            </button>
+          </div>
+
+          <div className="card">
+            <h2>Daily Tasks</h2>
+
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              <li>
+                <input type="checkbox" checked={tasks.dailyCheckIn} readOnly /> Daily check-in
+              </li>
+
+              <li>
+                <input type="checkbox" checked={tasks.visitBase} readOnly />{" "}
+                <button
+                  disabled={tasks.visitBase}
+                  onClick={() => {
+                    window.open("https://base.org", "_blank");
+                    completeTask("visitBase");
+                  }}
+                >
+                  Visit Base.org
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <p style={{ marginTop: 20, fontSize: 12, color: "#777" }}>
+            Wallet: {address.slice(0, 6)}...{address.slice(-4)}
+          </p>
+        </>
       )}
     </div>
   );
