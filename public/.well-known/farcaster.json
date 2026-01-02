@@ -1,16 +1,30 @@
 {
-  "name": "Base Mini App",
-  "version": "1.0.1",
-  "description": "My first Base Mini App built on Base",
-  "iconUrl": "https://placehold.co/512x512/png",
-  "homeUrl": "https://base-miniapp-jade.vercel.app",
-  "splashImageUrl": "https://placehold.co/1024x1024/png",
-  "splashBackgroundColor": "#000000",
-  "primaryCategory": "developer-tools",
-  "tags": ["base", "mini-app", "web3", "demo"],
-"accountAssociation": {
+  "accountAssociation": {
     "header": "eyJmaWQiOjIwNjU3ODMsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHg3ODdFMDU2MTU2Q0ZhMjBGMkEyMDk0NjVmNDlGMzRDMDk0M2U3QzlBIn0",
     "payload": "eyJkb21haW4iOiJiYXNlLW1pbmlhcHAtamFkZS52ZXJjZWwuYXBwIn0",
     "signature": "OO+M1ct15wNEXFuRBHJVWKp9S6qpUUxwHOfp1W9z68hpJyY6lyUSx9j2oojGFZhiR8czyIHKDfr4SaxVe4K4/Bs="
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "Base Mini App",
+    "homeUrl": "https://base-miniapp-jade.vercel.app",
+    "iconUrl": "https://placehold.co/512x512/png",
+    "splashImageUrl": "https://placehold.co/512x512/png",
+    "splashBackgroundColor": "#000000",
+    "subtitle": "Easy to manage",
+    "description": "My first Base Mini App",
+    "screenshotUrls": [
+      "https://placehold.co/512x512/png",
+      "https://placehold.co/512x512/png",
+      "https://placehold.co/512x512/png"
+    ],
+    "primaryCategory": "finance",
+    "tags": ["finance"],
+    "heroImageUrl": "https://placehold.co/512x512/png",
+    "tagline": "Save instantly",
+    "ogTitle": "Example Mini App",
+    "ogDescription": "Easy to manage portfolio.",
+    "ogImageUrl": "https://placehold.co/512x512/png",
+    "noindex": true
   }
 }
