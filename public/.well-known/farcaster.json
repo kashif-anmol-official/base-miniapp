@@ -8,7 +8,7 @@
     "version": "1",
     "name": "Base Mini App",
     "homeUrl": "https://base-miniapp-jade.vercel.app",
-    "iconUrl": "https://placehold.co/512x512/png",
+    "iconUrl": "https://base-miniapp-jade.vercel.app/icon.png",
     "splashImageUrl": "https://placehold.co/512x512/png",
     "splashBackgroundColor": "#000000",
     "subtitle": "Easy to manage",
@@ -20,11 +20,11 @@
     ],
     "primaryCategory": "finance",
     "tags": ["finance"],
-    "heroImageUrl": "https://placehold.co/512x512/png",
+    "heroImageUrl": "https://base-miniapp-jade.vercel.app/icon.png",
     "tagline": "Save instantly",
     "ogTitle": "Example Mini App",
     "ogDescription": "Easy to manage portfolio.",
-    "ogImageUrl": "https://placehold.co/512x512/png",
+    "ogImageUrl": "https://base-miniapp-jade.vercel.app/icon.png",
     "noindex": true
   }
 }
