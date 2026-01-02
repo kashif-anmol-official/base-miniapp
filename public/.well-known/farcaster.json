@@ -1,7 +1,11 @@
 {
   "name": "Base Mini App",
-  "description": "My first Base Mini App",
-  "icon": "https://placehold.co/512x512/png",
   "version": "1.0.0",
-  "appUrl": "https://base-miniapp-jade.vercel.app"
+  "description": "My first Base Mini App built on Base",
+  "iconUrl": "https://placehold.co/512x512/png",
+  "homeUrl": "https://base-miniapp-jade.vercel.app",
+  "splashImageUrl": "https://placehold.co/1024x1024/png",
+  "splashBackgroundColor": "#000000",
+  "primaryCategory": "developer-tools",
+  "tags": ["base", "mini-app", "web3", "demo"]
 }
