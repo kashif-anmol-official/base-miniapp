@@ -1,68 +1,81 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: system-ui, sans-serif;
+  background: #0b0b0b;
+  color: #ffffff;
+}
+
+.container {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 24px;
+  text-align: center;
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.wallet {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.card {
+  background: #151515;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.streak {
+  font-size: 18px;
+  margin-bottom: 12px;
 }
 
 button {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  border: none;
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  background: #0052ff;
+  color: #fff;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button:disabled {
+  background: #333;
+  cursor: not-allowed;
+}
+
+.tasks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.tasks li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.link {
+  background: none;
+  border: none;
+  color: #4da3ff;
+  cursor: pointer;
+  padding: 0;
+}
+
+.error {
+  color: #ff4d4d;
+  margin-top: 12px;
 }
