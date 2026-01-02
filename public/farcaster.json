@@ -1,0 +1,31 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjIwNjU3ODMsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHg3ODdFMDU2MTU2Q0ZhMjBGMkEyMDk0NjVmNDlGMzRDMDk0M2U3QzlBIn0",
+    "payload": "eyJkb21haW4iOiJiYXNlLW1pbmlhcHAtamFkZS52ZXJjZWwuYXBwIn0",
+    "signature": "OO+M1ct15wNEXFuRBHJVWKp9S6qpUUxwHOfp1W9z68hpJyY6lyUSx9j2oojGFZhiR8czyIHKDfr4SaxVe4K4/Bs="
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "Base Mini App",
+  "iconUrl": "https://base-miniapp-jade.vercel.app/icon.png",
+  "imageUrl": "https://base-miniapp-jade.vercel.app/icon.png",
+  "homeUrl": "https://base-miniapp-jade.vercel.app",
+    "splashImageUrl": "https://placehold.co/512x512/png",
+    "splashBackgroundColor": "#000000",
+    "subtitle": "Easy to manage",
+    "description": "My first Base Mini App",
+    "screenshotUrls": [
+      "https://placehold.co/512x512/png",
+      "https://placehold.co/512x512/png",
+      "https://placehold.co/512x512/png"
+    ],
+    "primaryCategory": "finance",
+    "tags": ["finance"],
+    "heroImageUrl": "https://base-miniapp-jade.vercel.app/icon.png",
+    "tagline": "Save instantly",
+    "ogTitle": "Example Mini App",
+    "ogDescription": "Easy to manage portfolio.",
+    "ogImageUrl": "https://base-miniapp-jade.vercel.app/icon.png",
+    "noindex": true
+  }
+}
