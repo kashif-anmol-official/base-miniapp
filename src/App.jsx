@@ -1,4 +1,7 @@
+"use client";
+
 import { useEffect, useState } from "react";
+import sdk from "@farcaster/frame-sdk";
 
 /* Utils */
 function todayKey() {
@@ -25,28 +28,35 @@ export default function App() {
   const [checkedInToday, setCheckedInToday] = useState(false);
   const [error, setError] = useState(null);
 
-  /* Read identity from Base/Farcaster context */
+  /* 1. Initialize Farcaster SDK (Fixes "Not Ready" Error) */
   useEffect(() => {
-    if (!window.base) {
-      setError("Base SDK not available. Open in Base App.");
-      return;
-    }
+    const load = async () => {
+      const context = await sdk.context;
+      sdk.actions.ready(); // Tells the validator the app is ready
+    };
 
-    try {
-      const address = window.base?.user?.walletAddress;
-      if (!address) {
-        setError("Wallet not found");
-        return;
-      }
-
-      setWallet(address);
-      setUserId(address.toLowerCase());
-    } catch {
-      setError("Failed to read Base SDK");
+    if (sdk && sdk.actions) {
+      load();
     }
   }, []);
 
-  /* Load daily state */
+  /* 2. Read identity from Base/Farcaster context */
+  useEffect(() => {
+    // Note: window.base might not exist in the emulator, so we check safely
+    if (typeof window !== "undefined" && window.base) {
+      try {
+        const address = window.base?.user?.walletAddress;
+        if (address) {
+          setWallet(address);
+          setUserId(address.toLowerCase());
+        }
+      } catch {
+        setError("Failed to read Base SDK");
+      }
+    }
+  }, []);
+
+  /* 3. Load daily state */
   useEffect(() => {
     if (!userId) return;
 
@@ -142,63 +152,65 @@ export default function App() {
   }
 
   return (
-    <div className="container">
+    <div className="container" style={{ padding: '20px' }}>
       <h1>Engagement Mini App</h1>
 
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error" style={{ color: 'red' }}>{error}</p>}
 
+      {/* Render content even if no wallet is found (for debugging) */}
+      <div className="card">
+        <p className="streak">
+          🔥 Streak: <strong>{streak}</strong>
+        </p>
+
+        <button
+          onClick={handleCheckIn}
+          disabled={checkedInToday}
+          style={{ padding: '10px 20px', margin: '10px 0' }}
+        >
+          {checkedInToday ? "Checked in today" : "Daily Check-In"}
+        </button>
+      </div>
+
+      <div className="card">
+        <h2>Daily Tasks</h2>
+
+        <ul className="tasks" style={{ listStyle: 'none', padding: 0 }}>
+          <li style={{ margin: '10px 0' }}>
+            <input
+              type="checkbox"
+              checked={tasks.dailyCheckIn}
+              readOnly
+              style={{ marginRight: '10px' }}
+            />
+            Daily check-in
+          </li>
+
+          <li style={{ margin: '10px 0' }}>
+            <input
+              type="checkbox"
+              checked={tasks.visitBase}
+              readOnly
+              style={{ marginRight: '10px' }}
+            />
+            <button
+              className="link"
+              disabled={tasks.visitBase}
+              onClick={() => {
+                window.open("https://base.org", "_blank");
+                completeTask("visitBase");
+              }}
+            >
+              Visit Base.org
+            </button>
+          </li>
+        </ul>
+      </div>
+      
       {wallet && (
-        <>
-          <p className="wallet">
+          <p className="wallet" style={{ marginTop: '20px', fontSize: '0.8em', color: '#666' }}>
             Wallet: {wallet.slice(0, 6)}...{wallet.slice(-4)}
           </p>
-
-          <div className="card">
-            <p className="streak">
-              🔥 Streak: <strong>{streak}</strong>
-            </p>
-
-            <button
-              onClick={handleCheckIn}
-              disabled={checkedInToday}
-            >
-              {checkedInToday ? "Checked in today" : "Daily Check-In"}
-            </button>
-          </div>
-
-          <div className="card">
-            <h2>Daily Tasks</h2>
-
-            <ul className="tasks">
-              <li>
-                <input
-                  type="checkbox"
-                  checked={tasks.dailyCheckIn}
-                  readOnly
-                />
-                Daily check-in
-              </li>
-
-              <li>
-                <input
-                  type="checkbox"
-                  checked={tasks.visitBase}
-                  readOnly
-                />
-                <button
-                  className="link"
-                  disabled={tasks.visitBase}
-                  onClick={() => {
-                    window.open("https://base.org", "_blank");
-                    completeTask("visitBase");
-                  }}
-                >
-                  Visit Base.org
-                </button>
-              </li>
-            </ul>
-          </div>
-        </>
       )}
     </div>
   );

@@ -5,7 +5,7 @@
     "signature": "OO+M1ct15wNEXFuRBHJVWKp9S6qpUUxwHOfp1W9z68hpJyY6lyUSx9j2oojGFZhiR8czyIHKDfr4SaxVe4K4/Bs="
   },
   "frame": {
-    "version": "1.0.1",
+    "version": "2",
     "name": "Base Mini App",
     "iconUrl": "https://base-miniapp-jade.vercel.app/icon.png",
     "imageUrl": "https://base-miniapp-jade.vercel.app/icon.png",
