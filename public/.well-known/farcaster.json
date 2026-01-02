@@ -7,9 +7,9 @@
   "miniapp": {
     "version": "1",
     "name": "Base Mini App",
-    "homeUrl": "https://base-miniapp-jade.vercel.app",
-    "iconUrl": "https://base-miniapp-jade.vercel.app/icon.png",
-"imageUrl": "https://base-miniapp-jade.vercel.app/icon.png",
+  "iconUrl": "https://base-miniapp-jade.vercel.app/icon.png",
+  "imageUrl": "https://base-miniapp-jade.vercel.app/icon.png",
+  "homeUrl": "https://base-miniapp-jade.vercel.app",
     "splashImageUrl": "https://placehold.co/512x512/png",
     "splashBackgroundColor": "#000000",
     "subtitle": "Easy to manage",
